@@ -24,30 +24,19 @@ struct LandmarkList: View {
                     }
             }
                 .onMove(perform: move)
-                .onDelete(perform: deleteLandmark)
+                .onDelete(perform: delete)
             }
-            .navigationBarTitle(Text("Landmarks"))
-            .alert(isPresented: $showingAlert) {
-                Alert(title: Text("Alert"), message: Text("Are you sure?"), primaryButton: .destructive(Text("Delete")) {
-                    self.deleteLandmark(at: Index)
-                    }, secondaryButton: .cancel() )
-            }
+        .navigationBarTitle(Text("Landmarks"))
+            .navigationBarItems(trailing: EditButton())
         }
-        .navigationBarItems(trailing: Button(action: {
-            self.showingAlert = true
-        }) {
-            Image(systemName: "trash")
-        })
-    }
-    
+}
     func move(from source: IndexSet, to destination: Int)
     {
         landmark.move(fromOffsets: source, toOffset: destination)
     }
-    func deleteLandmark(at Offsets: IndexSet)
+    func delete(at Offsets: IndexSet)
     {
         landmark.remove(atOffsets: Offsets)
-        presentationMode.wrappedValue.dismiss()
     }
 }
 
